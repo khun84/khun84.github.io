@@ -1,5 +1,5 @@
 ---
-title: "My Visualiation Reference"
+title: "Parallel Coordinate Plot"
 output: html_document
 theme: lumen
 highlight: pygments

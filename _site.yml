@@ -7,3 +7,6 @@ navbar:
       href: index.html
     - text: 'Viz Reference'
       href: about.html
+      menu:
+        - text: 'Parallel Coordinate Plot'
+        - href: parallel_coord_plot.html
