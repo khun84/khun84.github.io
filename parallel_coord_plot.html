@@ -186,9 +186,8 @@ $(document).ready(function () {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Parallel Coordinate Plot</li>
     <li>
-      <a href="parallel_coord_plot.html"></a>
+      <a href="parallel_coord_plot.html">Parallel Coordinate Plot</a>
     </li>
   </ul>
 </li>
@@ -209,8 +208,6 @@ $(document).ready(function () {
 </div>
 
 
-<div id="parallel-plot" class="section level1">
-<h1>Parallel Plot</h1>
 <p>The required library for this plot are <strong>ggplot2</strong>, <strong>dplyr</strong>, <strong>knitr</strong>, <strong>stringr</strong> and <strong>data.table</strong>.</p>
 <p>Populate some dummy datasets.</p>
 <pre class="r"><code>data = data.frame(
@@ -452,7 +449,6 @@ g1 = g + geom_text(data = data.label, aes(x = variable, y = scaled, label = wrap
 
 g1 + scale_color_discrete(name = &#39;cluster&#39;) + theme_bw() + theme(legend.key = element_rect(color = NA))</code></pre>
 <p><img src="parallel_coord_plot_files/figure-html/plotting-1.png" width="672" /></p>
-</div>
 
 
 
