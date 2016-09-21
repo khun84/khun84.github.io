@@ -1,7 +1,82 @@
 ---
-title: "Try and Play"
+title: "My Visualiation Reference"
 output: html_document
 theme: lumen
+highlight: pygments
 ---
 
-Lets try and play!
+# Parallel Plot
+
+The required library for this plot are **ggplot2**, **dplyr**, **knitr**, **stringr** and **data.table**.
+
+```{r 'load library', echo=FALSE}
+suppressMessages(require(ggplot2))
+suppressMessages(require(dplyr));suppressMessages(require(stringr))
+suppressMessages(require(knitr))
+suppressMessages(require(data.table))
+```
+
+Populate some dummy datasets.
+
+```{r}
+data = data.frame(
+        'l1' = as.factor(sample(LETTERS[1:4], 20, T)), 
+        'l2' = as.factor(sample(LETTERS[5:10], 20, T)),
+        'l3' = as.factor(sample(LETTERS[15:18], 20, T)), 
+        'cluster' = sample(1:4, 20, T))
+
+# a helper function to convert an object name into literal string
+var_to_name <- function(x){
+  deparse(substitute(x))
+}
+
+# print out the data frame
+kable(data, caption = var_to_name(data))
+
+```
+
+Next we do some massaging on the datasets
+
+```{r 'data massage'}
+# generate id for each row so that we can group the row in line plot
+data$id <- seq(nrow(data))
+
+# melt the data frame by keeping id and cluster only
+data.melt <- melt(data, id.vars = c('id', 'cluster'))
+
+# the value column is actually the label value in each column, so we rename it as 'label'
+names(data.melt)[grepl('value', names(data.melt), fixed = T) %>% which] = 'label'
+
+# change the label to numeric type so that we can plot it in y-axis
+data.melt$value <- as.factor(data.melt$label) %>% as.numeric
+
+dt <- data.table(data.melt)
+
+kable(head(dt), caption = var_to_name(dt))
+
+# scale the value group by its column name and use a new column 'scaled' to store it
+dt[, scaled:=scale(value), variable]
+
+# create the dataset for text labelling
+data.label <- dt[, .(variable, label, scaled)] %>% distinct
+```
+
+Start to plot the graph.
+
+```{r 'plotting'}
+
+g = ggplot(dt, aes(x = variable, y = scaled)) + geom_point(
+      aes(color = as.factor(cluster))) + geom_line(aes(group = id, color = as.factor(cluster)))
+
+# vectorize str_wrap function so that we can wrap the text in label column if its too long
+wraptxt <- Vectorize(str_wrap, vectorize.args = 'string')
+
+# plot the label
+g1 = g + geom_text(data = data.label, aes(x = variable, y = scaled, label = wraptxt(label, width = 10)), 
+                                          family = 'Panton', hjust = 'left', nudge_x = .02, size = 3)
+
+g1 + scale_color_discrete(name = 'cluster') + theme_bw() + theme(legend.key = element_rect(color = NA))
+```
+
+
+
