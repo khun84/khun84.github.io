@@ -9,4 +9,4 @@ navbar:
       href: about.html
       menu:
         - text: 'Parallel Coordinate Plot'
-        - href: parallel_coord_plot.html
+          href: parallel_coord_plot.html
