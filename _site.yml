@@ -1,0 +1,9 @@
+name: 'my-website'
+output_dir: '.'
+navbar:
+  title: 'Try and Play'
+  left:
+    - text: 'Home'
+      href: index.html
+    - text: 'Viz Reference'
+      href: about.html
