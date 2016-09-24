@@ -9,8 +9,6 @@ highlight: pygments
 opts_chunk$set(cache = T)
 ```
 
-# Parallel Plot
-
 The required library for this plot are **ggplot2**, **dplyr**, **knitr**, **stringr** and **data.table**.
 
 ```{r 'load library', echo=FALSE}
