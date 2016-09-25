@@ -11,3 +11,5 @@ navbar:
         - text: 'Viz Demo'
         - text: 'Parallel Coordinate Plot'
           href: parallel_coord_plot.html
+        - text: 'Diagonal Network Plot'
+          href: '#'

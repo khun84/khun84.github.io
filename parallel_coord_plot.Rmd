@@ -9,13 +9,14 @@ highlight: pygments
 opts_chunk$set(cache = T)
 ```
 
-The required library for this plot are **ggplot2**, **dplyr**, **knitr**, **stringr** and **data.table**.
+The required library for this plot are **ggplot2**, **dplyr**, **knitr**, **stringr**, **rmarkdown** and **data.table**.
 
 ```{r 'load library', echo=FALSE}
 suppressMessages(require(ggplot2))
 suppressMessages(require(dplyr));suppressMessages(require(stringr))
 suppressMessages(require(knitr))
 suppressMessages(require(data.table))
+suppressMessages(require(rmarkdown))
 ```
 
 Populate some dummy datasets.
@@ -49,34 +50,34 @@ data.melt <- melt(data, id.vars = c('id', 'cluster'))
 # the value column is actually the label value in each column, so we rename it as 'label'
 names(data.melt)[grepl('value', names(data.melt), fixed = T) %>% which] = 'label'
 
-# change the label to numeric type so that we can plot it in y-axis
+# change the label to numeric type so that we can plot it in y-axis, it would be our data label
 data.melt$value <- as.factor(data.melt$label) %>% as.numeric
 
 dt <- data.table(data.melt)
 
-dt[, variable:=as.factor(variable)]
+dt[, variable.x:=as.factor(variable)]
 
 kable(head(dt), caption = var_to_name(dt))
 
 # scale the value group by its column name and use a new column 'scaled' to store it
-dt[, scaled:=scale(value), variable]
+dt[, scaled.y:=scale(value), variable]
 
 # create the dataset for text labelling
-data.label <- dt[, .(variable, label, scaled)] %>% distinct
+data.label <- dt[, .(variable.x, label, scaled.y)] %>% distinct
 ```
 
 Start to plot the graph.
 
 ```{r 'plotting'}
 
-g = ggplot(dt, aes(x = variable, y = scaled)) + geom_point(
+g = ggplot(dt, aes(x = variable.x, y = scaled.y)) + geom_point(
       aes(color = as.factor(cluster))) + geom_line(aes(group = id, color = as.factor(cluster)))
 
 # vectorize str_wrap function so that we can wrap the text in label column if its too long
 wraptxt <- Vectorize(str_wrap, vectorize.args = 'string')
 
 # plot the label
-g1 = g + geom_text(data = data.label, aes(x = variable, y = scaled, label = wraptxt(label, width = 10)), 
+g1 = g + geom_text(data = data.label, aes(x = variable.x, y = scaled.y, label = wraptxt(label, width = 10)), 
                                           family = 'Panton', hjust = 'left', nudge_x = .02, size = 3)
 
 g1 + scale_color_discrete(name = 'cluster') + theme_bw() + theme(legend.key = element_rect(color = NA))
