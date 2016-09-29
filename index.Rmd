@@ -7,7 +7,15 @@ highlight: pygments
 
 ```{r include=F}
 opts_chunk$set(cache = T)
+require(ggplot2)
+require(manipulate)
+require(data.table)
+require(manipulate)
 ```
 
 This website serves as a reference for the R scripting in Data Science.
 
+```{r}
+my.picker <- picker(as.list(names(mtcars)), initial = 'cyl')
+manipulate(qplot(y=mpg, x = eval(parse(text = pick)), data = mtcars, geom = 'point'), pick = my.picker)
+```
