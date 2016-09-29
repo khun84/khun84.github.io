@@ -1,0 +1,43 @@
+---
+title: 'Diagonal Tree Plot'
+author: "Daniel Lee"
+date: "9/25/2016"
+output: 
+  html_document:
+    css: style.css
+theme: lumen
+highlight: pygments
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(cache = T)
+```
+
+The required library for this plot are **igraph**, **networkD3**, **knitr**, **data.table**, **rmarkdown** and **data.table**.
+
+```{r 'load library', include=F}
+suppressMessages(require(igraph))
+suppressMessages(require(networkD3))
+suppressMessages(require(knitr))
+suppressMessages(require(data.table))
+suppressMessages(require(rmarkdown))
+```
+
+In practical, the raw data may come in multiple format. The format that I encountered most are **2 column based (from - to)** and **multiple column based (lvl1 - lvl2 - lvln)**. In this example, I will use **multiple column format** in which each column represent one hierarchy level and the hierarchy level is ordered from left to right.
+
+In some scenario, the same element may occur in multiple column, which is totally make sense to the specific use case. However, the diagonal tree would not work in this regard. I will highlight in the comment when the treatment is in place to cater this issue.
+
+```{r 'create mock up  data'}
+treedt <- data.table(lvl1=sample(LETTERS[1:5], 10, replace = T),
+                     lvl2=sample(LETTERS[3:8], 10, replace = T),
+                      lvl3=sample(LETTERS[5:15], 10, replace=T),
+                      lvl4=sample(LETTERS[5:15], 10, replace=T),
+                      lvl5=sample(LETTERS[16:25], 10))
+
+kable(treedt, caption='treedt')
+```
+
+
+
+

@@ -213,6 +213,9 @@ $(document).ready(function () {
 
 
 <p>This website serves as a reference for the R scripting in Data Science.</p>
+<pre class="r"><code>my.picker &lt;- picker(as.list(names(mtcars)), initial = &#39;cyl&#39;)
+manipulate(qplot(y=mpg, x = eval(parse(text = pick)), data = mtcars, geom = &#39;point&#39;), pick = my.picker)</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 
 
 
