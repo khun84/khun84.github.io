@@ -3,6 +3,7 @@ title: "Parallel Coordinate Plot"
 output: 
   html_document:
     css: style.css
+    fb:"http://ogp.me/ns/fb#"
 theme: lumen
 highlight: pygments
 ---
